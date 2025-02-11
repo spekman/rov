@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=3.0" />
+    <meta name="description" content="A unique interpretation of Windows XP, except it's on the web! :D">
+    <meta property="og:title" content="Wannabe XP">
+    <meta property="og:image" content="resources/win.png">
+    <meta property="og:description" content="A unique interpretation of Windows XP, except it's on the web! :D">
+    <meta property="og:url" content="https://wxp.neocities.org/">
+    <title>Wannabe XP</title>
+    <link href="vintage-fx.css" rel="stylesheet" type="text/css" media="all"> 
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="resources/win-min.png" rel="shortcut icon" type="image/png">
+    <script src="/xp/scripts/xp_popup.js"></script>
+    <script src="/xp/scripts/doubleClick.js"></script>
+    <script src="xpContextMenu.js"></script>
+    <!-- it all happens here ↓ -->
+              <script src="code.js"></script>
+    
+  </head>
+  <body class="crt-scanlines crt-flicker">
+    <div id="hidden">
+      
+    </div>
+    <div id="desktop">
+      <table id="desktopGrid">
+        <tr>
+          <td name="chattable"><div class="shortcuts"><img src="/xp/resources/pesterchum.ico" class="dtAppIco"/><span class="dtAppBtnTxt">BadoChat</span></div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td name="ie"><div class="shortcuts"><img src="resources/internet.png" class="dtAppIco"/><span class="dtAppBtnTxt">shrevv.carrd.co</span></div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td name="info"><div class="shortcuts"><img src="resources/win-min.png" class="dtAppIco"/><span class="dtAppBtnTxt">Info</span></div></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td name="x"><div class="shortcuts"><img src="resources/internet.png" class="dtAppIco"/><span class="dtAppBtnTxt">aery.neocities.org</span></div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td name="cmd"><div class="shortcuts"><img src="resources/cmd.png" class="dtAppIco"/><span class="dtAppBtnTxt">Shell</span></div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td name="paint"><div class="shortcuts"><img src="resources/paint.png" class="dtAppIco"/><span class="dtAppBtnTxt">Paint</span></div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    <div id="windowsEnv"></div>
+    <div id="taskbar">
+      <div id="startBtnWrap"><img src="resources/win-min.png" id="startIco" draggable="false"/><span>Start</span></div>
+      <div id="activeApplications"></div>
+      <div id='dateTime'></div>
+    </div>
+    <div id="startMenu">
+      <div id="accountBackdrop"></div>
+      <div id="startMenuContent">
+        <div id="left" name="apps">
+          <div class="startItemApp" name="cmd"><img src="resources/cmd.png" class="startItemIcon" /><span>Command Prompt</span></div>
+          <div class="startItemApp" name="webamp"><img src="resources/cmd.png" class="startItemIcon" /><span>WebAmp</span></div>
+          <div class="startItemApp" name="ie"><img src="resources/internet.png" class="startItemIcon" /><span>Carrd</span></div>
+          <div class="startItemApp" name="chattable"><img src="/xp/resources/pesterchum.ico" class="startItemIcon" /><span>BadoChat</span></div>
+          <div class="startItemApp" name="x"><img src="resources/min.svg" class="startItemIcon" /><span>Neocities</span></div>
+        </div>
+        <div id="right" name="system"></div>
+      </div>
+      <div id="startMenuFooter">
+        <div id="logout" class="menuSysOption"><img src="/xp/resources/logoff.png" class="menuIcon" />Log Off</div>
+        <div id="shutdown" class="menuSysOption"><img src="/xp/resources/shutdown.png" class="menuIcon" />Turn Off Computer</div>
+      </div>
+    </div>
+ </body>
+</html>

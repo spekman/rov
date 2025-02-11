@@ -1,0 +1,289 @@
+    <style>
+      @font-face { 
+        font-family: WinXP;
+        src: url('/xp/resources/win.woff');
+      }
+      #cmdWrap {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+        background-color: #000;
+        color: #DDD;
+        font-family: WinXP, monospace;
+      }
+      #display {
+        font-family: inherit;
+        font-size: 12pt;
+        display: block;
+        width: auto;
+        
+      }
+      .line {
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+      #cmdInput {
+        display: block;
+        caret-color: #DDD;
+        width: calc(100% - 2pt);
+        height: 14pt;
+        font-size: 12pt;
+        font-family: inherit;
+        padding: 1pt;
+        background-color: inherit;
+        color: inherit;
+        border: none;
+        outline: none;
+      }
+      #cmdInput:active, #cmdInput:focus {
+        border: none;
+        outline: none;
+      }
+      
+    </style>
+    <script>
+        // commands MUST follow this syntax:
+  
+  /*
+    pointer : {
+      f : function(args){
+      
+      },
+      help : "Desc. of binary & other helpful information including syntax rules",
+      reqAdmin : true|false,
+      exec : function(str){
+        // interpret str to data if needed then use
+        this.f(data)
+        // to run with supplied data
+      }
+    }
+  */
+window.assets = {
+  getWholeTerminal : function(){
+    return document.getElementById("cmdWrap");
+  },
+  getScreen : function(){
+    return document.getElementById("display");
+  },
+  getInputElem : function(){
+    return document.getElementById("cmdInput");
+  },
+  cmdHistory : [],
+  
+};
+window.commands = {  
+  matrix : {
+    help : "",
+    reqAdmin : false,
+    exec : function(){
+      window.commands.color.exec("0a");
+      var random = ["A", "B", "C", "D", "E", "F", " ", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, " ", "x", "?", "%", "$", ".", "###", "@", "!=", "-", "+", "=", "{}", " "];
+      var scn = window.assets.getScreen();    
+      var newLine = document.createElement("PRE");
+      newLine.className = "line";
+      newLine.style.display = "block";
+      newLine.style.margin = "0";
+      newLine.style.whiteSpace = "pre-wrap";
+      newLine.style.fontFamily = "inherit";
+      scn.appendChild(newLine);
+      var ll = document.getElementsByClassName("line")[(document.getElementsByClassName("line").length - 1)];
+      for(var i = 0; i < 2500; i++){
+        setTimeout(function(){
+          ll.innerHTML += random[(Math.floor(Math.random() * random.length))];
+          window.assets.getWholeTerminal().scrollTo(0, window.assets.getWholeTerminal().scrollHeight);
+        }, 50);
+      }
+    },
+    f : this.exec,
+  },
+  error : {
+    f : function(msg){
+      var scn = window.assets.getScreen();
+      var newLine = document.createElement("PRE");
+      newLine.className = "line";
+      newLine.style.display = "block";
+      newLine.style.margin = "0";
+      newLine.style.color = "Red";
+      newLine.style.whiteSpace = "pre-wrap";
+      newLine.style.fontFamily = "inherit";
+      newLine.innerHTML = msg;
+      scn.appendChild(newLine);
+      window.assets.getWholeTerminal().scrollTo(0, window.assets.getWholeTerminal().scrollHeight);
+      console.error(msg);
+    },
+    help : "Logs an error message.",
+    reqAdmin : false,
+    exec : function(string){
+      this.f(string);
+    }
+  },
+  echo : {
+    f : function(txt){
+      var scn = window.assets.getScreen();
+      var newLine = document.createElement("PRE");
+      newLine.className = "line";
+      newLine.style.display = "block";
+      newLine.style.margin = "0";
+      newLine.style.whiteSpace = "pre-wrap";
+      newLine.style.fontFamily = "inherit";
+      newLine.innerText = txt;
+      scn.appendChild(newLine);
+      window.assets.getWholeTerminal().scrollTo(0, window.assets.getWholeTerminal().scrollHeight);
+      console.log(txt);
+      return true;
+    },
+    help : "Take's data & displays it to the screen. Requires a string type argument when calling this function.",
+    reqAdmin: false,
+    exec : function(string){
+      this.f(string);
+    }
+  },
+  open : {
+    f : function(source){
+      var x = window.startApp(source);
+      if(x){
+        return true;
+      } else {
+        return false;
+      }
+    },
+    help : "Opens an application specified.",
+    reqAdmin : false,
+    exec : function(string){
+      this.f(string);
+    }
+  },
+  color : {
+    f : function(f, b){
+      window.assets.getWholeTerminal().style.backgroundColor = b;
+      window.assets.getWholeTerminal().style.color = f;
+      window.assets.getInputElem().style.color = f;
+      window.assets.getInputElem().style.caretColor = f;
+    },
+    help : "Set the color of the foreground & background.",
+    reqAdmin : false,
+    exec : function(string){
+      /*
+      0 = Black       8 = Gray
+  1 = Blue        9 = Light Blue
+  2 = Green       A = Light Green
+  3 = Aqua        B = Light Aqua
+  4 = Red         C = Light Red
+  5 = Purple      D = Light Purple
+  6 = Yellow      E = Light Yellow
+  7 = White       F = Bright White
+      */
+      var colors = {
+        0 : "black",
+        1 : "blue",
+        2 : "green",
+        3 : "aqua",
+        4 : "red",
+        5 : "purple",
+        6 : "yellow",
+        7 : "white",
+        8 : "gray",
+        9 : "lightblue",
+        A : "#0F0",
+        B : "#0FF",
+        C : "#F00",
+        D : "#F0F",
+        E : "#FF0",
+        F : "#FFF"
+      };
+      var fg = string[1].toUpperCase();
+      var bg = string[0].toUpperCase();
+      console.log(fg, bg)
+      this.f(colors[fg], colors[bg]);
+    }
+  },
+  exit : {
+    f : function(){
+      
+    },
+    help : "Closes the terminal",
+    reqAdmin : false,
+    exec : function(){
+      window.activePanes[window.selectedWindow.id].close();
+    }
+  },
+  cls : {
+    f : function(){
+      
+    },
+    help : "Clears the terminal screen",
+    reqAdmin : false,
+    exec : function(){
+      window.assets.getScreen().innerHTML = "";
+    }
+  },
+  help : {
+    f : function(){
+      
+    },
+    help : "Displays a set of commands available to you",
+    reqAdmin : false,
+    exec : function(){
+      var list = [];
+      for(keys in window.commands){
+        list.push(keys);
+      }
+      window.commands.echo.f(list.toString());
+    }
+  }
+};
+window.run = function(text){
+  var cmdName;
+  window.commands.echo.f("C:\\Users\\1: " + text);
+  if(text.match(/\s/)){
+    cmdName = text.split(" ")[0];
+    var cmdArgs = text.split(cmdName)[1].replace(/^\s+|\s+$/igm, "");
+    if(text.match(/\/\?$/i)){
+      if(window.commands[cmdName]){
+        if(window.commands[cmdName].help){
+          window.commands.echo.f(window.commands[cmdName].help);
+          return true;
+        } else {
+          window.commands.echo.f("There is no help available for this command.");
+          return true;
+        }
+      } else {
+        window.commands.error.f(">>>&nbsp;" + cmdName + ": command not found");
+        return false;
+      }
+    }
+    if(window.commands[cmdName]){
+      window.commands[cmdName].exec(cmdArgs);
+      return true;
+    } else {
+      window.commands.error.f(">>>&nbsp;" + cmdName + ": command not found");
+      return false;
+    }
+  } else {
+    if(window.commands[text]){
+      cmdName = text;
+      window.commands[cmdName].exec();
+      return true;
+    } else {
+      window.commands.error.f(">>>&nbsp;" + text + ": command not found");
+      return false;
+    }
+  }
+  window.assets.cmdHistory.push(text);
+};
+document.getElementById("cmdInput").onkeypress = function(e){
+  window.assets.getWholeTerminal().scrollTo(0, window.assets.getWholeTerminal().scrollHeight);
+  if(e.which == 13){
+    window.run(this.value);
+    this.value = "";
+  }
+};
+document.getElementById("cmdWrap").onclick = function(e){
+  document.getElementById("cmdInput").focus();
+};
+    </script>
+    <div id="cmdWrap">
+      <div id="display"></div>
+      <input type="text" id="cmdInput" autofocus="true" />
+    </div>
