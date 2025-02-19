@@ -1,19 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
 
 :root {
-	scrollbar-width: none;
+	--black: #000;
+	--white: #FFF;
 }
 
 * {
 	/* box-sizing: border-box;*/
+	font-size: 1rem;
+	scrollbar-width: none;
 }
+
+::selection {
+	color:#FFF;
+	background-color: #282828;
+}
+
+.follow {
+	background-color: white;
+    color: black;
+    border: 1px black solid;
+    font-family: ms ui gothic;
+    font-size: 12px;
+    padding: 5px;
+    text-transform: lowercase;
+	height: 30px;
+}
+
+
 
 body {
 	font-family: ms ui gothic;
-	font-size: 14px;
 	margin: 0;
 	padding: 6px;
 	image-rendering: pixelated;
+	background-image: url('src/bg.jpg');
+	background-size: cover;
+}
+
+.page {
+	background: white;
 }
 
 .outer {
@@ -21,7 +47,7 @@ body {
 	height: 700px;
 	border: 1px solid #000;
 	padding: 6px;
-	background-image: url('1.png');
+	background-image: url('src/1.png');
 	margin: auto;
 }
 
@@ -32,7 +58,7 @@ body {
 	width: 300px;
 	height: 200px;
 	margin-bottom: 6px;
-	background-image: url('2.png');
+	background-image: url('src/2.png');
 }
 
 .site-title {
@@ -61,9 +87,9 @@ body {
 	vertical-align: top;
 	width: 540px;
 	height: 170px;
-	background-image: url('banner.gif');
-	background-size: cover;
-	background-position: top;
+	background-image: url('src/rainworld2.gif');
+	background-size: auto;
+	background-position: center 70%;
 }
 
 .scroller {
@@ -83,7 +109,7 @@ body {
 	line-height: 20px;
 }
 
-.marquee span{
+.marquee span {
 	white-space: nowrap;
 }
 
@@ -99,7 +125,7 @@ body {
 	vertical-align: top;
 	padding: 24px;
 	box-sizing: border-box;
-	background-image: url('4.png');
+	background-image: url('src/4.png');
 }
 
 .friends {
@@ -143,21 +169,27 @@ body {
 }
 
 .main {
-  border: 1px solid #000;
-  display: inline-block;
-  vertical-align: top;
-  width: 500px;
-  height: 490px;
-  background: #FFF;
-  box-sizing: border-box; /* Prevents border from adding extra size */
-  overflow: hidden; /* Hides any unwanted overflow */
+	position: relative;
+	z-index: 10;
+	border: 1px solid #000;
+	display: inline-block;
+	vertical-align: top;
+	width: 500px;
+	height: 490px;
+	background: #FFF;
+	box-sizing: border-box;
+	/* Prevents border from adding extra size */
+	overflow: hidden;
+	/* Hides any unwanted overflow */
 }
 
 .main iframe {
-  height: 100%;
-  width: 100%;
-  display: block; /* Removes default iframe spacing */
-  border: none; /* Optional: Removes default iframe border */
+	height: 100%;
+	width: 100%;
+	display: block;
+	/* Removes default iframe spacing */
+	border: none;
+	/* Optional: Removes default iframe border */
 }
 
 
@@ -173,7 +205,7 @@ body {
 	height: auto;
 	background: #FFF;
 	padding: 6px;
-	box-sizing: border-box;	
+	box-sizing: border-box;
 }
 
 .avatar {
@@ -181,16 +213,18 @@ body {
 	width: 170px;
 	height: 170px;
 	margin-bottom: 12px;
-	background-image: url('avvy.png')
+    background-image: url(src/00363.gif);
+    background-position: center;
+    background-size: cover;
+    filter: saturate(10) contrast(10);	
 }
 
 .likes {
-	visibility: hidden;
 	border: 1px solid #000;
 	width: 170px;
 	height: 170px;
 	margin-bottom: 12px;
-	background-image: url('5.png')
+	background-image: url('src/5.png')
 }
 
 .likes table {
@@ -204,6 +238,23 @@ body {
 	color: #FFF;
 	margin: auto;
 	margin-top: 22px;
+}
+
+.likes td {
+	padding:0;
+}
+
+.likes img {
+	display: block;
+	margin: auto;
+}
+
+textarea {
+	font-size: smaller;
+	border: 1px solid black;
+	width: 100px;
+    display: block;
+    margin: auto;
 }
 
 .menu a {
@@ -236,6 +287,10 @@ img {
 	max-width: 100%;
 }
 
+audio {
+	width: 200px;
+}
+
 h1 {
 	background: #000;
 	color: #FFF;
@@ -254,4 +309,71 @@ h2 {
 	font-size: 12px;
 	letter-spacing: 2px;
 	padding: 3px;
+}
+
+
+
+.filter {
+	z-index: 2;
+	pointer-events: none;
+	position: fixed;
+	height: 1000%;
+	width: 1000%;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	opacity: .7;
+	left: 0;
+	background-image: url('src/bayer.png');
+	background-size: .5em;
+	filter: contrast(.45);
+	background-attachment: fixed;
+	text-align: center;
+	mix-blend-mode: color-dodge;
+}
+
+.filter2 {
+	z-index: 2;
+	pointer-events: none;
+	position: fixed;
+	height: 1000%;
+	width: 1000%;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	left: 0;
+	background: url('src/grain.gif');
+	background-attachment: fixed;
+	opacity: .025;
+	mix-blend-mode: overlay;
+}
+
+.filter3 {
+	z-index: 5;
+	pointer-events: none;
+	position: fixed;
+	height: 1000%;
+	width: 1000%;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	opacity: 1;
+	left: 0;
+	filter: grayscale();
+	background-image: url(https://onge.org/images/bayer.png);
+	background-attachment: fixed;
+	mix-blend-mode: color-dodge;
+}
+
+.filter4 {
+	z-index: 3;
+	pointer-events: none;
+	backdrop-filter: contrast(6) brightness(3) saturate(.5);
+	position: fixed;
+	height: 1000%;
+	width: 1000%;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	left: 0;
 }
