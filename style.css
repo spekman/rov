@@ -366,6 +366,12 @@ h2 {
 	left: 0;
 }
 
+.follow {
+    display: block;
+    color: black;
+    width: 100px;
+}
+
 #statuscafe {
 	position: relative;
 	z-index: 5;
