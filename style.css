@@ -9,6 +9,7 @@
 	/* box-sizing: border-box;*/
 	font-size: 1rem;
 	scrollbar-width: none;
+	cursor: url(cursor.png), auto;
 }
 
 ::selection {
