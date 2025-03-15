@@ -1,11 +1,11 @@
 class OverworldEvent {
-  constructor({ map, event}) {
+  constructor({ map, event }) {
     this.map = map;
     this.event = event;
   }
 
   stand(resolve) {
-    const who = this.map.gameObjects[ this.event.who ];
+    const who = this.map.gameObjects[this.event.who];
 
     who.startBehavior({
       map: this.map
@@ -14,7 +14,7 @@ class OverworldEvent {
       direction: this.event.direction,
       time: this.event.time
     })
-    
+
     //Set up a handler to complete when correct person is done walking, then resolve the event
     const completeHandler = e => {
       if (e.detail.whoId === this.event.who) {
@@ -26,7 +26,7 @@ class OverworldEvent {
   }
 
   walk(resolve) {
-    const who = this.map.gameObjects[ this.event.who ];
+    const who = this.map.gameObjects[this.event.who];
 
     who.startBehavior({
       map: this.map
@@ -58,7 +58,7 @@ class OverworldEvent {
       text: this.event.text,
       onComplete: () => resolve()
     })
-    message.init( document.querySelector(".game-container") )
+    message.init(document.querySelector(".game-container"))
   }
 
   changeMap(resolve) {
@@ -69,7 +69,7 @@ class OverworldEvent {
 
     const sceneTransition = new SceneTransition();
     sceneTransition.init(document.querySelector(".game-container"), () => {
-      this.map.overworld.startMap( window.OverworldMaps[this.event.map], {
+      this.map.overworld.startMap(window.OverworldMaps[this.event.map], {
         x: this.event.x,
         y: this.event.y,
         direction: this.event.direction,
@@ -102,36 +102,27 @@ class OverworldEvent {
   }
 
   bg(resolve) {
-    document.querySelector(".game-container").style.backgroundImage="url(/game/images/maps/samatha.gif)";       
+    document.querySelector(".game-container").style.backgroundImage = "url(/game/images/maps/samatha.gif)";
     resolve();
   }
 
   removeBg(resolve) {
-    document.querySelector(".game-container").style.background="black";       
+    document.querySelector(".game-container").style.background = "black";
     resolve();
   }
 
-  loadPC(resolve) {
-    const menu = new PC({
+  album(resolve) {
+    const menu = new Album({
       onComplete: () => {
         resolve();
       }
     })
-    menu.init(document.querySelector(".game-container"))
-  }
-
-  tv(resolve) {
-    const menu = new tv({
-      onComplete: () => {
-        resolve();
-      }
-    })
-    menu.init(document.querySelector(".game-container"))
+    menu.init(document.querySelector(".game-container"));
   }
 
   init() {
     return new Promise(resolve => {
-      this[this.event.type](resolve)      
+      this[this.event.type](resolve)
     })
   }
 

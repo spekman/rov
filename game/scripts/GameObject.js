@@ -29,10 +29,10 @@ class GameObject {
   update() {
   }
 
-  async doBehaviorEvent(map) { 
+  async doBehaviorEvent(map) {
 
     //I don't have config to do anything
-    if (this.behaviorLoop.length === 0 ) {
+    if (this.behaviorLoop.length === 0) {
       return;
     }
 
@@ -53,17 +53,17 @@ class GameObject {
 
     //Create an event instance out of our next event config
     const eventHandler = new OverworldEvent({ map, event: eventConfig });
-    await eventHandler.init(); 
+    await eventHandler.init();
 
     //Setting the next event to fire
     this.behaviorLoopIndex += 1;
     if (this.behaviorLoopIndex === this.behaviorLoop.length) {
       this.behaviorLoopIndex = 0;
-    } 
+    }
 
     //Do it again!
     this.doBehaviorEvent(map);
-    
+
 
   }
 

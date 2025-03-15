@@ -5,12 +5,13 @@
   --menu-background: #ffffff;
   --menu-border-color: #000000;
   --menu-font-color: #000000;
-  --menu-selected-background: #ffffff;
-  --menu-selected-color: #000000;
+  --menu-selected-background: #000000;
+  --menu-selected-color: #ffffff;
+  --scale: 50%;
 }
 
 * {
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 
 body {

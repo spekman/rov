@@ -2,14 +2,14 @@ const utils = {
   withGrid(n) {
     return n * 32;
   },
-  asGridCoord(x,y) {
-    return `${x*32},${y*32}`
+  asGridCoord(x, y) {
+    return `${x * 32},${y * 32}`
   },
   nextPosition(initialX, initialY, direction) {
     let x = initialX;
     let y = initialY;
     const size = 32;
-    if (direction === "left") { 
+    if (direction === "left") {
       x -= size;
     } else if (direction === "right") {
       x += size;
@@ -18,7 +18,7 @@ const utils = {
     } else if (direction === "down") {
       y += size;
     }
-    return {x,y};
+    return { x, y };
   },
   oppositeDirection(direction) {
     if (direction === "left") { return "right" }
@@ -36,7 +36,7 @@ const utils = {
   },
 
   randomFromArray(array) {
-    return array[ Math.floor(Math.random()*array.length) ]
+    return array[Math.floor(Math.random() * array.length)]
   },
 
   emitEvent(name, detail) {
@@ -45,5 +45,5 @@ const utils = {
     });
     document.dispatchEvent(event);
   }
-  
+
 }

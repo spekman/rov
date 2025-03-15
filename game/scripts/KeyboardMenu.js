@@ -1,9 +1,10 @@
 class KeyboardMenu {
-  constructor(config={}) {
+  constructor(config = {}) {
     this.options = []; //set by updater method
-    this.up = null;
-    this.down = null;
+    this.up =  null;
+    this.down =  null;
     this.prevFocus = null;
+    this.special = config.special || false;
     this.descriptionContainer = config.descriptionContainer || null;
   }
 
@@ -24,7 +25,7 @@ class KeyboardMenu {
     this.element.querySelectorAll("button").forEach(button => {
 
       button.addEventListener("click", () => {
-        const chosenOption = this.options[ Number(button.dataset.button) ];
+        const chosenOption = this.options[Number(button.dataset.button)];
         chosenOption.handler();
       })
       button.addEventListener("mouseenter", () => {
@@ -40,7 +41,7 @@ class KeyboardMenu {
       this.element.querySelector("button[data-button]:not([disabled])").focus();
     }, 10)
 
-    
+
 
 
   }
@@ -52,7 +53,7 @@ class KeyboardMenu {
     //Description box element
     this.descriptionElement = document.createElement("div");
     this.descriptionElement.classList.add("DescriptionBox");
-    this.descriptionElement.innerHTML = (`<p>Let's have fun on the internet! (Click away then press ESC to close)</p>`);
+    this.descriptionElement.innerHTML = (`<p>Press ESC to close</p>`);
     this.descriptionElementText = this.descriptionElement.querySelector("p");
   }
 
@@ -63,8 +64,8 @@ class KeyboardMenu {
     this.descriptionElement.remove();
 
     //Clean up bindings
-    this.up.unbind();
-    this.down.unbind();
+    this.up?.unbind();
+    this.down?.unbind();
   }
 
   init(container) {
@@ -72,14 +73,15 @@ class KeyboardMenu {
     (this.descriptionContainer || container).appendChild(this.descriptionElement);
     container.appendChild(this.element);
 
-    this.up = new KeyPressListener("ArrowDown", () => {
+    if (this.special) return;
+    this.up = new KeyPressListener("ArrowUp", () => {
       const current = Number(this.prevFocus.getAttribute("data-button"));
       const prevButton = Array.from(this.element.querySelectorAll("button[data-button]")).reverse().find(el => {
         return el.dataset.button < current && !el.disabled;
       })
       prevButton?.focus();
     })
-    this.down = new KeyPressListener("ArrowUp", () => {
+    this.down = new KeyPressListener("ArrowDown", () => {
       const current = Number(this.prevFocus.getAttribute("data-button"));
       const nextButton = Array.from(this.element.querySelectorAll("button[data-button]")).find(el => {
         return el.dataset.button > current && !el.disabled;

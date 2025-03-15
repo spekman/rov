@@ -1,30 +1,30 @@
 class PauseMenu {
-  constructor({onComplete}) {
+  constructor({ onComplete }) {
     this.onComplete = onComplete;
   }
 
   getOptions() {
-      return [
-        {
-          label: "Follow",
-          description: "Close the pause menu",
-          handler: () => {
-            this.close();
-          }
-        }, 
-        { 
-          label: "Close",
-          description: "Follow me on Twitter!",
-          handler: () => {
-            this.close();
-            this.follow();
-          }
-        },
-      ]
+    return [
+      {
+        label: "Guide",
+        description: "Learn more about the game!",
+        handler: () => {
+          this.guide();
+        }
+      },
+      {
+        label: "Close",
+        description: "Close the pause menu",
+        handler: () => {
+          this.close();
+        }
+      },
+    ]
   }
 
-  follow() {
-    window.open('https://x.com/fornoagas','_blank');
+  guide() {
+    const menu = new Guide()
+    menu.init(document.querySelector(".game-container"))
   }
 
   createElement() {

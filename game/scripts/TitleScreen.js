@@ -5,9 +5,9 @@ class TitleScreen {
 
   getOptions(resolve) {
     return [
-      { 
+      {
         label: "ENTER",
-        description: "v0.1",
+        description: "v1.0",
         handler: () => {
           this.close();
           resolve();
@@ -30,7 +30,7 @@ class TitleScreen {
     this.keyboardMenu.end();
     this.element.remove();
   }
-  
+
   init(container) {
     return new Promise(resolve => {
       this.createElement();
