@@ -1,5 +1,3 @@
-
-
 .aalbum {
     margin: 0;
     font-family: "Margarine";
@@ -12,6 +10,7 @@
     background: url(../images/album/bg.jpg);
     background-size: cover;
 }
+
 canvas {
     position: absolute;
     top: 0;
@@ -33,6 +32,7 @@ canvas {
     border-right-width: 2px;
     z-index: 1;
 }
+
 #album-cover {
     position: absolute;
     top: 50%;
@@ -48,6 +48,7 @@ canvas {
     transition: 1s ease;
     z-index: 1;
 }
+
 #hands {
     transition: 1s ease;
     position: absolute;
@@ -61,6 +62,7 @@ canvas {
     display: flex;
     justify-content: space-between;
 }
+
 #photo-hands {
     position: absolute;
     top: 20% !important;
@@ -74,7 +76,8 @@ canvas {
     align-items: center;
     transition: 0.4s ease;
 }
-#hands > div {
+
+#hands>div {
     width: 50px;
     height: 50px;
     background-color: #000;
@@ -83,7 +86,8 @@ canvas {
     border: 3px solid #fff;
     outline: 2px solid #000;
 }
-#photo-hands > div {
+
+#photo-hands>div {
     padding: 2px;
     background-color: #000;
     color: #fff;
@@ -91,9 +95,11 @@ canvas {
     border: 2px solid #fff;
     outline: 1px solid #000;
 }
-#photo-hands > div > div {
+
+#photo-hands>div>div {
     height: 15px;
 }
+
 #photo-div,
 #next-photo-div {
     position: absolute;
@@ -110,6 +116,7 @@ canvas {
     background-color: #d7dbdf;
     border-style: solid;
 }
+
 #next-photo-div {
     opacity: 0;
     top: 50%;
@@ -118,6 +125,7 @@ canvas {
     position: absolute;
     pointer-events: none;
 }
+
 .thumb-div {
     border-image-source: url(../images/album/photo_small.png);
     border-image-slice: 6 6 20 6;
@@ -130,12 +138,14 @@ canvas {
     filter: blur(0.3px);
     cursor: pointer;
 }
+
 .photo-side {
     display: flex;
     align-items: center;
     min-height: 90px;
 }
-.photo-side > div {
+
+.photo-side>div {
     width: 50%;
     height: 100%;
     display: flex;
@@ -143,19 +153,24 @@ canvas {
     justify-content: center;
     align-items: center;
 }
+
 .photo-side-right {
     flex-direction: row-reverse;
 }
+
 .photo-side-left .thumb-text {
     margin-right: 15px;
 }
+
 .photo-side-right .thumb-text {
     margin-left: 15px;
 }
+
 .thumb {
     max-width: 72px;
     max-height: 64px;
 }
+
 .thumb-text {
     color: #8f8a8d;
     font-size: 10px;
@@ -165,47 +180,56 @@ canvas {
     word-break: break-word;
     filter: blur(0.1px);
 }
+
 #left {
     background-image: url("../images/album/page_left2.png?");
     transform-origin: right;
 }
+
 #right {
     background-image: url("../images/album/page_right2.png?");
     transform-origin: left;
 }
+
 #photo,
 #next-photo {
     max-height: 25vh;
     max-width: 25vh;
 }
+
 #sides {
     position: absolute;
     z-index: 2;
 }
+
 #sides,
 #low-sides {
     width: 100%;
     height: 100%;
     display: flex;
 }
-#sides > div,
-#low-sides > div {
+
+#sides>div,
+#low-sides>div {
     width: 100%;
     will-change: transform;
     transition: 1s ease-in-out;
 }
-#sides > div > div,
-#low-sides > div > div {
+
+#sides>div>div,
+#low-sides>div>div {
     will-change: transform;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     height: 100%;
 }
+
 #low-sides {
     position: absolute;
     z-index: 1;
 }
+
 .key {
     border: 2px solid #fff;
     border-right-color: lightgray;
@@ -221,6 +245,7 @@ canvas {
     cursor: pointer;
     user-select: none;
 }
+
 #text-box {
     position: fixed;
     bottom: 10px;
@@ -239,6 +264,7 @@ canvas {
     font-size: 10px;
     z-index: 2;
 }
+
 #photo-date {
     opacity: 0;
     position: fixed;
@@ -256,6 +282,7 @@ canvas {
     transition: 0.5s;
     z-index: 1;
 }
+
 #no-desc {
     position: fixed;
     bottom: 90px;
@@ -272,9 +299,11 @@ canvas {
     transition: 0.5s;
     z-index: 1;
 }
+
 #text {
     outline: none;
 }
+
 #left-hand,
 #right-hand,
 #photo-left-hand,
@@ -282,11 +311,13 @@ canvas {
     cursor: pointer;
     user-select: none;
 }
+
 #left-hand img,
 #photo-left-hand img {
     transform: rotateY(180deg);
     transform-origin: center;
 }
+
 #hands .key {
     font-size: 10px;
     padding: 2px 4px 3px 6px;
@@ -294,7 +325,8 @@ canvas {
     border-width: 1px;
     filter: blur(0.3px);
 }
-#hands > div {
+
+#hands>div {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -309,18 +341,21 @@ canvas {
     animation: handmove 0.9s infinite ease-in-out;
     user-select: none;
 }
-#selector-hand > img {
+
+#selector-hand>img {
     width: 24px;
 }
+
 @keyframes handmove {
     0% {
         transform: translate(0, 0);
     }
+
     50% {
         transform: translate(5px, 0);
     }
+
     100% {
         transform: translate(0, 0);
     }
 }
-
