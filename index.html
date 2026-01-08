@@ -2,24 +2,193 @@
 <html lang="en">
 
 <head>
-	<title>realm of vignette</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="realm of vignette">
-	<link rel="icon" type="image/x-icon" href="src/mewo.webp">
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script defer type="module" src="main.js"></script>
-	<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.182.0/examples/jsm/"
-  }
-}
-</script>
+    <meta charset="UTF-8">
+    <title>rov.bios</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            overflow: hidden;
+            font-family: Verdana, sans-serif;
+        }
+
+        #menu {
+            position: absolute;
+            top: 50%;
+            left: 55%;
+            transform: translateY(-50%);
+            color: #999999;
+            z-index: 100;
+            text-align: center;
+        }
+
+        .menu-item {
+            font-size: 2rem;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: 0.3s;
+            opacity: 0.7;
+            text-shadow:
+                -2px -2px 0 #000,
+                0 -2px 0 #000,
+                2px -2px 0 #000,
+                2px 0 0 #000,
+                2px 2px 0 #000,
+                0 2px 0 #000,
+                -2px 2px 0 #000,
+                -2px 0 0 #000;
+
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        .menu-item:hover {
+            opacity: 1;
+            transform: scale(101%);
+            color: #88cfff
+        }
+
+        .sub-text {
+            font-size: 0.9rem;
+            color: #445;
+            display: block;
+            margin-top: 4px;
+        }
+    </style>
 </head>
 
 <body>
+
+    <div id="menu">
+        <a href="whitespace.html">
+            <div class="menu-item">Browser</div>
+        </a>
+        <div class="menu-item">System Configuration</div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 6;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+
+        const textureLoader = new THREE.TextureLoader();
+        const glowMap = textureLoader.load('src/orb.png');
+
+        const orbCount = 7;
+        const radius = 1;
+        const globalPivot = new THREE.Group();
+        scene.add(globalPivot);
+
+        const orbs = [];
+        const ghostPool = [];
+
+        for (let i = 0; i < orbCount; i++) {
+            // The main Orb
+            const mat = new THREE.SpriteMaterial({ map: glowMap, color: 0xffffff, blending: THREE.AdditiveBlending, transparent: true });
+            const sprite = new THREE.Sprite(mat);
+            sprite.scale.set(0.5, 0.5, 1);
+            globalPivot.add(sprite);
+
+            orbs.push({
+                sprite,
+                angle: (i / orbCount) * Math.PI * 2,
+                speedBase: 0.02,
+                phase: i * 0.5,
+                lastTrailTime: 0
+            });
+        }
+
+        function createGhost(x, y, z) {
+            const mat = new THREE.SpriteMaterial({
+                map: glowMap,
+                color: 0x4488ff,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.4
+            });
+            const ghost = new THREE.Sprite(mat);
+            ghost.position.set(x, y, z);
+            ghost.scale.set(0.4, 0.4, 1);
+            ghost.userData = { life: 1.0 };
+            globalPivot.add(ghost);
+            ghostPool.push(ghost);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = performance.now() * 0.001;
+
+            globalPivot.rotation.x += 0.007;
+            globalPivot.rotation.y += 0.012;
+
+            orbs.forEach(orb => {
+                // Angular Velocity
+                orb.angle += orb.speedBase + Math.sin(time + orb.phase) * 0.015;
+
+                const x = Math.cos(orb.angle) * radius;
+                const y = Math.sin(orb.angle) * radius;
+                const z = 0;
+                orb.sprite.position.set(x, y, z);
+
+                // Spawn a ghost disk every 
+                if (performance.now() - orb.lastTrailTime > 15) {
+                    createGhost(x, y, z);
+                    orb.lastTrailTime = performance.now();
+                }
+            });
+
+            // Update Ghost Life Cycles
+            for (let i = ghostPool.length - 1; i >= 0; i--) {
+                const g = ghostPool[i];
+                g.userData.life -= 0.02; // Decay speed
+
+                if (g.userData.life <= 0) {
+                    globalPivot.remove(g);
+                    ghostPool.splice(i, 1);
+                } else {
+                    const l = g.userData.life;
+                    g.material.opacity = l * 0.4;
+
+                    const s = 0.4 * l;
+                    g.scale.set(s, s, 1);
+                }
+            }
+
+            composer.render();
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
 </body>
 
 </html>
