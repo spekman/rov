@@ -1,225 +1,144 @@
-import * as THREE from "three";
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { initBrowser } from './browser.js';
+// For those who don't know the PS2 menu's orbs actually function as a clock!
+// They move with slightly different speeds, like a pendulum, and  get 
+// grouped together at specific parts of a minute. Worth reading about! 
 
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000000);
-
-// Camera
-const camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-);
-
-// Renderer
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// Lights & BG
-scene.background = new THREE.Color(0xffffff);
-
-scene.add(new THREE.AmbientLight(0xffffff, 1));
-
-const dirLight = new THREE.DirectionalLight(0xffffff, 0.4);
-dirLight.position.set(1, 2, 1);
-scene.add(dirLight);
-
-// Floor
-
-const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(500, 500),
-    new THREE.MeshBasicMaterial({ visible: false })
-);
-floor.rotation.x = -Math.PI / 2;
-scene.add(floor);
-
-// Carpet
-
-const rectSizeX = 4;
-const rectSizeZ = 3;
-
-const rectPoints = [
-  new THREE.Vector3(-rectSizeX, 0, -rectSizeZ),
-  new THREE.Vector3(rectSizeX, 0, -rectSizeZ),
-  new THREE.Vector3(rectSizeX, 0, rectSizeZ),
-  new THREE.Vector3(-rectSizeX, 0, rectSizeZ),
-  new THREE.Vector3(-rectSizeX, 0, -rectSizeZ),
-];
-
-const rectGeometry = new THREE.BufferGeometry().setFromPoints(rectPoints);
-
-const rectLine = new THREE.Line(
-  rectGeometry,
-  new THREE.LineBasicMaterial({ color: 0x000000 })
-);
-
-scene.add(rectLine);
-
-// Grid
-
-const grid = new THREE.GridHelper(
-  100,
-  100,
-  0x000000,
-  0x000000
-);
-grid.material.opacity = 0.03;
-grid.material.transparent = true;
-scene.add(grid);
-grid.visible = false;
-
-window.addEventListener("keydown", e => {
-  if (e.code === "KeyG") {
-    grid.visible = !grid.visible;
-  }
-});
-
-// Player 
-const player = {
-    position: new THREE.Vector3(0, 1.6, 5),
-    rotationY: 0,
-};
-
-camera.position.copy(player.position);
-
-const keys = {};
-window.addEventListener("keydown", e => keys[e.code] = true);
-window.addEventListener("keyup", e => keys[e.code] = false);
-
-// Sprites
-
-const loader = new THREE.TextureLoader();
-
-function loadSprite(path) {
-  const tex = loader.load(path);
-  tex.magFilter = THREE.NearestFilter;
-  tex.minFilter = THREE.NearestFilter;
-  tex.generateMipmaps = false;
-  return tex;
-}
-
-function createWorldSprite(texture, width, height) {
-  const mat = new THREE.MeshBasicMaterial({
-    map: texture,
-    transparent: true
-  });
-
-  const mesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(width, height),
-    mat
-  );
-
-  return mesh;
-}
-
-const catTex = loadSprite("/src/mewo.webp");
-const cat = createWorldSprite(catTex, 1.5, 1.5);
-cat.position.set(2, 0.5, 0);
-scene.add(cat);
-
-const bulbTex = loadSprite("/src/bulb.webp");
-const bulb = createWorldSprite(bulbTex, 1, 1);
-bulb.position.set(1, 3.5, -1);
-scene.add(bulb);
-
-const cordHeight = 50;
-const cordPoints = [
-  new THREE.Vector3(0, cordHeight, 0),
-  new THREE.Vector3(0, bulb.position.y, bulb.position.z),
-];
-const cordGeometry = new THREE.BufferGeometry().setFromPoints(cordPoints);
-const cord = new THREE.Line(
-  cordGeometry,
-  new THREE.LineBasicMaterial({ color: 0x000000 })
-);
-scene.add(cord);
-cord.geometry.setFromPoints([
-  new THREE.Vector3(
-    bulb.position.x,
-    cordHeight,
-    bulb.position.z
-  ),
-  new THREE.Vector3(
-    bulb.position.x + 0.015,
-    bulb.position.y + 0.5,
-    bulb.position.z
-  ),
-]);
-cord.material.depthWrite = false;
-
-const doorTex = loadSprite("/src/door.webp");
-const door = createWorldSprite(doorTex, 2, 2.5);
-door.position.set(-3, 1.2, -6);
-scene.add(door);
-
-const laptopWidth = 1.2;
-const laptopDepth = 0.8;
-const laptopScreenHeight = 0.8;
-const laptopBase = new THREE.Mesh(
-  new THREE.PlaneGeometry(laptopWidth, laptopDepth),
-  new THREE.MeshBasicMaterial({ color: 0x000000 })
-);
-laptopBase.rotation.x = -Math.PI / 2;
-laptopBase.position.set(-1.5, 0.01, 0.5);
-scene.add(laptopBase);
-const laptopScreen = new THREE.Mesh(
-  new THREE.PlaneGeometry(laptopWidth, laptopScreenHeight),
-  new THREE.MeshBasicMaterial({ color: 0x000000 })
-);
-laptopScreen.position.set(
-  laptopBase.position.x,
-  laptopBase.position.y + laptopScreenHeight / 2,
-  laptopBase.position.z - laptopDepth / 2
-);
-laptopScreen.rotation.x = -0.2;
-scene.add(laptopScreen);
-const laptop = new THREE.Group();
-laptop.add(laptopBase);
-laptop.add(laptopScreen);
-scene.add(laptop);
+export function initMainMenu(renderer) {
+    const menu = document.getElementById('menu');
+    const fadeOverlay = document.getElementById('fade-overlay');
+    fadeOverlay.style.opacity = '1';
 
 
 
-// Loop
-const clock = new THREE.Clock();
+    // Scene setup
+    const scene = new THREE.Scene();
 
-function update() {
-    const dt = clock.getDelta();
-
-    const moveSpeed = 5;
-    const turnSpeed = 3;
-
-    if (keys["KeyA"] || keys["ArrowLeft"]) player.rotationY += turnSpeed * dt;
-    if (keys["KeyD"] || keys["ArrowRight"]) player.rotationY -= turnSpeed * dt;
-
-    const forward = new THREE.Vector3(
-        Math.sin(player.rotationY),
-        0,
-        Math.cos(player.rotationY)
+    const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
     );
+    camera.position.z = 4.5;
 
-    if (keys["KeyW"] || keys["ArrowUp"]) player.position.addScaledVector(forward, -moveSpeed * dt);
-    if (keys["KeyS"] || keys["ArrowDown"]) player.position.addScaledVector(forward, moveSpeed * dt);
+    const container = document.body;
+    container.appendChild(renderer.domElement);
 
-    // Camera sync
-    camera.position.copy(player.position);
-    camera.rotation.set(0, player.rotationY, 0);
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
 
-    // Sprite
-    cat.rotation.y = player.rotationY
-    bulb.rotation.y = player.rotationY
+    // Audio
+    const listener = new THREE.AudioListener();
+    camera.add(listener);
+    const sound = new THREE.Audio(listener);
+    const audioLoader = new THREE.AudioLoader();
+    audioLoader.load('src/select.wav', function (buffer) {
+        sound.setBuffer(buffer);
+        sound.setLoop(false);
+        sound.setVolume(0.5);
+    });
 
-    renderer.render(scene, camera);
-    requestAnimationFrame(update);
+
+    // Browser redirect
+    const browserBtn = document.querySelector('.menu-item:first-child');
+    browserBtn.onclick = () => {
+        sound.play();
+        const fadeOverlay = document.getElementById('fade-overlay');
+        fadeOverlay.style.opacity = '1';
+
+        setTimeout(() => {
+            menu.style.display = 'none';
+            // FIX: Pass the renderer here!
+            initBrowser(renderer, () => {
+                initMainMenu(renderer);
+            });
+        }, 1500);
+    };
+
+    // Assets
+    const glowMap = new THREE.TextureLoader().load('src/orb.png');
+
+    // Orb system
+    const orbCount = 7;
+
+    // Integer harmonic ratios
+    const ORB_RATIOS = [0, 1, 2, 3, 4, 5, 6];
+    const ORBIT_RADIUS = 0.8;
+
+    const globalPivot = new THREE.Group();
+    scene.add(globalPivot);
+
+    const orbs = [];
+
+    for (let i = 0; i < orbCount; i++) {
+        const mat = new THREE.SpriteMaterial({
+            map: glowMap,
+            color: 0xffffff,
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+            depthWrite: false
+        });
+
+        const sprite = new THREE.Sprite(mat);
+        sprite.scale.set(0.45, 0.45, 1);
+        sprite.position.set(0, 0, 0);
+
+        globalPivot.add(sprite);
+
+        orbs.push({ sprite });
+    }
+
+    // Time helper
+    function getMinutePhase(t) {
+        return (t % 60) / 60;
+    }
+
+    // Animation
+    function animate() {
+        requestAnimationFrame(animate);
+
+        const time = performance.now() * 0.001;
+
+        // Pendulum
+        const baseAngle = getMinutePhase(time) * Math.PI * 2;
+
+        // Global 3D rotation
+        globalPivot.rotation.x += 0.006;
+        globalPivot.rotation.y += 0.01;
+        globalPivot.rotation.z += 0.015;
+
+        orbs.forEach((orb, i) => {
+            const ratio = ORB_RATIOS[i];
+
+            const angle = baseAngle * ratio;
+
+            orb.sprite.position.set(
+                Math.cos(angle) * ORBIT_RADIUS,
+                Math.sin(angle) * ORBIT_RADIUS,
+                0
+            );
+        });
+
+        composer.render();
+    }
+
+    // Fade in
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            fadeOverlay.style.opacity = '0';
+        }, 500);
+    });
+
+    // Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
 }
-
-
-update();
-
-// Resize
-window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});

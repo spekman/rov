@@ -1,16 +1,114 @@
 body {
-	background-color: #080808;
-	color: #86ea16;
-		font-family: "Roboto Mono", monospace;
-		font-optical-sizing: auto;
-		font-weight: normal;
-		font-style: normal;
-		font-size: 12px;
-		margin: 0;
-		padding: 0;
+	margin: 0;
+	background-color: #000;
+	overflow: hidden;
+	font-family: Verdana, sans-serif;
+	user-select: none;
 }
 
-html, body {
-    scrollbar-width: thin; 
+#menu {
+	position: absolute;
+	top: 50%;
+	left: 55%;
+	transform: translateY(-50%);
+	color: #999999;
+	z-index: 100;
+	text-align: center;
 }
 
+.menu-item {
+	font-size: 2rem;
+	margin: 10px 0;
+	cursor: pointer;
+	transition: 0.3s;
+	opacity: 0.7;
+	text-shadow:
+		-2px -2px 0 #000,
+		0 -2px 0 #000,
+		2px -2px 0 #000,
+		2px 0 0 #000,
+		2px 2px 0 #000,
+		0 2px 0 #000,
+		-2px 2px 0 #000,
+		-2px 0 0 #000;
+}
+
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+.menu-item:hover {
+	opacity: 1;
+	transform: scale(101%);
+	color: #88cfff
+}
+
+.sub-text {
+	font-size: 0.9rem;
+	color: #445;
+	display: block;
+	margin-top: 4px;
+}
+
+#boot-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	background: #000;
+}
+
+#boot-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-size: 2rem;
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+	pointer-events: none;
+	z-index: 1001;
+	text-shadow:
+		-2px -2px 0 #000,
+		0 -2px 0 #000,
+		2px -2px 0 #000,
+		2px 0 0 #000,
+		2px 2px 0 #000,
+		0 2px 0 #000,
+		-2px 2px 0 #000,
+		-2px 0 0 #000;
+}
+
+#fade-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	z-index: 5000;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+}
+
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: black;
+	background-image: url('src/bg.gif');
+	background-size: cover;
+	z-index: 2000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	filter: brightness(0.1);
+}
