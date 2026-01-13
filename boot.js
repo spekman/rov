@@ -13,7 +13,8 @@ export function initBootScreen(renderer, onComplete) {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
 
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); 
+    window.activeCamera = camera;
 
     container.appendChild(renderer.domElement);
 
@@ -70,8 +71,6 @@ export function initBootScreen(renderer, onComplete) {
     // Cube 
     const cubeMat = new THREE.MeshPhysicalMaterial({
         color: 0x020409,
-        shininess: 100,
-        specular: 0x4466ff,
         transparent: true,
         opacity: 0.25,
         blending: THREE.AdditiveBlending,
@@ -124,13 +123,13 @@ export function initBootScreen(renderer, onComplete) {
         elapsed += safeDelta;
         const requestID = requestAnimationFrame(animate);
 
-        const targetSpeed = (elapsed > 7.0) ? 0.4 : 0.012;
+        const targetSpeed = (elapsed > 7.0) ? 0.4 : 0.01;
         currentSpeed = THREE.MathUtils.lerp(currentSpeed, targetSpeed, 0.04);
 
         camera.position.z -= currentSpeed;
 
-        targetRotationZ = elapsed * 0.06;
-        currentRotationZ = THREE.MathUtils.lerp(currentRotationZ, targetRotationZ, 0.2);
+        targetRotationZ = (elapsed > 7) ? elapsed * 0.06 : elapsed * 0.03;
+        currentRotationZ = THREE.MathUtils.lerp(currentRotationZ, targetRotationZ, 0.01);
         camera.rotation.z = currentRotationZ;
         cloudGroup.children.forEach(cloud => {
             cloud.material.rotation = -currentRotationZ;

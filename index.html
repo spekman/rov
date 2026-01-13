@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>rov.bios</title>
     <link rel="icon" type="image/x-icon" href="src/mewo.webp">
-	<link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -20,8 +20,11 @@
     </div>
 
     <div id="menu" style="display:none;">
-            <div class="menu-item">Browser</div>
+        <div class="menu-item">Browser</div>
         <div class="menu-item">System Configuration</div>
+    </div>
+
+    <div id="browser-label">
     </div>
 
     <script type="importmap">
@@ -32,36 +35,46 @@
             }
         }
     </script>
-
     <script type="module">
-    import * as THREE from 'three';
-    import { initBootScreen } from './boot.js';
-    import { initMainMenu } from './main.js';
-    import { initBrowser } from './browser.js';
+        import * as THREE from 'three';
+        import { initBootScreen } from './boot.js';
+        import { initMainMenu } from './main.js';
 
-    // Create ONE renderer for the entire lifecycle
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    // This stops the renderer from trying to be "clever" with texture memory
-    renderer.debug.checkShaderErrors = false; 
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
 
-    const overlay = document.getElementById('overlay');
-    overlay.addEventListener('click', () => {
-        overlay.style.display = 'none';
-        
-        // Pass the shared renderer to each scene
-        // document.getElementById('boot-container').remove();
-        // initBrowser(renderer);
-        
-        initBootScreen(renderer, () => {
-            document.getElementById('boot-container').remove();
-            document.getElementById('menu').style.display = 'block';
-            initMainMenu(renderer);
+        window.activeCamera = null;
+
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // 1. Update Renderer
+            renderer.setSize(width, height);
+
+            // 2. Update Camera if it exists
+            if (window.activeCamera) {
+                window.activeCamera.aspect = width / height;
+                window.activeCamera.updateProjectionMatrix();
+            }
+
+            // 3. Update Composer if you use post-processing (like in main.js)
+            if (window.activeComposer) {
+                window.activeComposer.setSize(width, height);
+            }
         });
-        
-    });
-</script>
+
+        const overlay = document.getElementById('overlay');
+        overlay.addEventListener('click', () => {
+            overlay.style.display = 'none';
+            initBootScreen(renderer, () => {
+                document.getElementById('boot-container').remove();
+                initMainMenu(renderer);
+            });
+        });
+    </script>
 </body>
 
 </html>

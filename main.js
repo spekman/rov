@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { initBrowser } from './browser.js';
+import { initWhiteSpace } from './whitespace.js';
 // For those who don't know the PS2 menu's orbs actually function as a clock!
 // They move with slightly different speeds, like a pendulum, and  get 
 // grouped together at specific parts of a minute. Worth reading about! 
@@ -10,25 +11,24 @@ export function initMainMenu(renderer) {
     const menu = document.getElementById('menu');
     const fadeOverlay = document.getElementById('fade-overlay');
     fadeOverlay.style.opacity = '1';
-
+    document.getElementById('menu').style.display = 'block';
 
 
     // Scene setup
     const scene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-    );
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 4.5;
+
 
     const container = document.body;
     container.appendChild(renderer.domElement);
 
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
+
+    window.activeCamera = camera;
+    window.activeComposer = composer;
 
     // Audio
     const listener = new THREE.AudioListener();
@@ -52,9 +52,10 @@ export function initMainMenu(renderer) {
         setTimeout(() => {
             menu.style.display = 'none';
             // FIX: Pass the renderer here!
-            initBrowser(renderer, () => {
-                initMainMenu(renderer);
-            });
+            initBrowser(renderer,
+                () => initMainMenu(renderer), // Back callback
+                () => initWhiteSpace(renderer, () => initBrowser(renderer, () => initMainMenu(renderer))) // Launch callback
+            );
         }, 1500);
     };
 
@@ -132,13 +133,7 @@ export function initMainMenu(renderer) {
         }, 500);
     });
 
-    // Resize
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        composer.setSize(window.innerWidth, window.innerHeight);
-    });
+
 
     animate();
 }

@@ -112,3 +112,24 @@ a {
 	cursor: pointer;
 	filter: brightness(0.1);
 }
+
+#browser-label {
+	position: absolute;
+	top: 10%;
+	right: 5%;
+	color: #ffff00;
+	font-family: sans-serif;
+	font-size: 24px;
+	opacity: 0;
+	transition: opacity 0.3s;
+	letter-spacing: 3px;
+	text-shadow:
+		-2px -2px 0 #000,
+		0 -2px 0 #000,
+		2px -2px 0 #000,
+		2px 0 0 #000,
+		2px 2px 0 #000,
+		0 2px 0 #000,
+		-2px 2px 0 #000,
+		-2px 0 0 #000;
+}
