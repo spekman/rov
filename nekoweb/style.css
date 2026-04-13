@@ -23,8 +23,7 @@ body {
 	margin: 0;
 	padding: 6px;
 	image-rendering: pixelated;
-	background-image: url('src/bg.png');
-	background-size: cover;
+	background: black;
 }
 
 .page {
