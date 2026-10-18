@@ -44,7 +44,7 @@ body {
     opacity: 1;
 }
 .deer:active{
-    mix-blend-mode: hard-light;
+    filter: invert(1);
     z-index: 2;
 }
 

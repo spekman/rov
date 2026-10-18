@@ -8,7 +8,7 @@
 
 	<style>
 		:root {
-			--background-height:414px;
+			--background-height:338px;
 			--background-width: 600px;
 		}
 		html {
@@ -33,7 +33,7 @@
 
 		@keyframes moveBg {
 			0% { background-position: 0; }
-			100% { background-position: 1200px;}
+			100% { background-position: 100vw;}
 		}
 
         .moving-bg {
@@ -78,11 +78,7 @@
             background-size: cover;
             display: flex;
             padding: 10px;
-        }
-
-        @keyframes innerGlow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+            cursor: pointer;
         }
 
 	</style>
