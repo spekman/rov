@@ -3,5 +3,10 @@
     "file": "hello-world.md",
     "title": "Lorem ipsum dolor",
     "date": "2026-08-23"
+  },
+    {
+    "file": "aboutv3.md",
+    "title": "some changes i made for v3.1",
+    "date": "2026-10-17"
   }
 ]

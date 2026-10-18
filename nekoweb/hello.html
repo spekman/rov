@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="global.css">
+    <style>
+        :root {
+            color-scheme: light;
+        }
+
+        body {
+            margin: 0;
+            background-image: url(src/SE.png);
+            background-size: cover;
+            height: 100vh;
+            max-height: 100vh;
+        }
+
+        #angel {
+            mix-blend-mode: lighten;
+            position: absolute;
+            height: 100vh;
+            z-index: 2;
+            animation: flicker 3s ease-in-out infinite alternate ;
+        }
+
+        #angel.visible ~ #door {
+            opacity: 1 !important;
+        }
+        #door {
+            position: absolute;
+            bottom: 20%;
+            right: 10%;
+            width: 10em;
+            aspect-ratio: 1/2;
+            z-index: 1;
+            background-color: black;
+            transition: opacity 3s;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        @keyframes flicker {
+            0% {
+                filter: brightness(1.2) drop-shadow(0 0 10px white);
+            }
+            100% {
+                filter: brightness(1.7) drop-shadow(0 0 30px white) ;
+            }
+        }
+
+        #text {
+            color: white;
+            mix-blend-mode: difference;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 10em;
+            position: absolute;
+            z-index: 5;
+            transform: perspective(600px) rotateX(-45deg);
+        }
+
+        #bg {
+            position: absolute;
+            top: 70%;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: clip;
+        }
+        #bg-tiles {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-conic-gradient(#FFF 0 25%, #000 0 50%) 50% / 60px 60px;
+            transform: perspective(300px) rotateX(45deg) scale(1.5);
+        }
+
+        
+    </style>
+</head>
+
+<body>
+   
+    <div class="crt" hidden></div>
+    <span id="text">hello</span>
+    <img id="angel" onmouseenter="this.classList.add('visible')" src="src/angel.png">
+    <div id="door" onclick="window.location.href = 'home.html'"></div>
+    <div id="bg">
+        <div id="bg-tiles"></div>
+    </div> 
+    <noscript>just go to <a href="/home.html">home.html</a> smh</noscript>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+        @font-face {
+            font-family: 'SYS';
+            src: url("/src/fixedsys.ttf") format("truetype");
+        }
+
+        :root {
+            color-scheme: dark;
+
+            --light-primary-color: #EEE;
+            --light-secondary-color: #00A;
+            --dark-primary-color: #00A;
+            --dark-secondary-color: #EEE;
+
+            --primary-color: dark(var(--dark-primary-color), var(--light-primary-color));
+            --secondary-color: dark(var(--dark-secondary-color), var(--light-secondary-color));
+
+            --maxsize: 480px;
+            --blend-mode: multiply;
+        }
+
+        .dark-mode {
+            --primary-color: var(--dark-primary-color);
+            --secondary-color: var(--dark-secondary-color);
+            --blend-mode: screen;
+        }
+
+        .light-mode {
+            --primary-color: var(--light-primary-color);
+            --secondary-color: var(--light-secondary-color);
+            --blend-mode: multiply;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'SYS', monospace, 'MS UI Gothic';
+            image-rendering: pixelated;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .crt::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 3;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 0.11861;
+            }
+
+            5% {
+                opacity: 0.10769;
+            }
+
+            10% {
+                opacity: 0.10604;
+            }
+
+            15% {
+                opacity: 0.10626;
+            }
+
+            20% {
+                opacity: 0.11128;
+            }
+
+            25% {
+                opacity: 0.10626;
+            }
+
+            30% {
+                opacity: 0.11128;
+            }
+
+            35% {
+                opacity: 0.10604;
+            }
+        }
+
+        .crt::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(18, 16, 16, 0.1);
+            opacity: 0;
+            z-index: 3;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }

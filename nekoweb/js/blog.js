@@ -40,7 +40,7 @@
     s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
     s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
     s = s.replace(
-      /\[([^\]]+)\]\((https?:\/\/[^)\s]+|mailto:[^)\s]+|\/[^)\s]*)\)/g,
+      /\[([^\]]+)\]\(([^)\s]+|mailto:[^)\s]+|\/[^)\s]*)\)/g,
       '<a href="$2">$1</a>'
     );
     return s;

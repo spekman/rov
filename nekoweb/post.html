@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>rovpost</title>
-  
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="page-post">
 
+  <link rel="stylesheet" href="blog/blog.css">
+  <link rel="stylesheet" href="global.css">
+</head>
+
+<body class="page-post">
+<div class="crt" id="crt"></div>
   <nav class="post-nav">
-    <a href="home.html">&larr; back home</a>
+    <a href="home.html">&larr; back home</a> <button onclick="crt.classList.toggle('hidden')">TOGGLE CRT</button>
   </nav>
 
   <main id="main" class="post-shell">
     <article class="box" id="post-article">
-      
-      <!-- Topo estilo DOS Terminal -->
+
       <div class="terminal-bar">
         <span>COMMAND.COM - TYPE CON</span>
         <span>[80x25]</span>
@@ -40,4 +42,5 @@
 
   <script src="js/blog.js" defer></script>
 </body>
+
 </html>

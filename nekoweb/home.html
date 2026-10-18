@@ -1,175 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- hello! -->
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>~log</title>
+    <title>~home</title>
     <script src="https://u.widget.st/ar.js"></script>
     <script src="js/blog.js" defer></script>
+    <script src="js/filter.js" type="module"></script>
+
     <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+
+    <!-- dither filter by tomren1 -->
+    <svg image-rendering="optimizeSpeed" xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+        <defs>
+            <filter id="dither" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+                <feImage width="4" height="4"
+                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAASElEQVR42gXBgQAAIAxFwW8QwhBCCCGEIYQQQgghhBBCCEMYwutOkphzYmbsvdG9l9YaEYG7o1or5xxKKay1UGYyxuC9R++dD7yGJkTj6F0HAAAAAElFTkSuQmCC" />
+                <feTile />
+                <feComposite operator="arithmetic" k1="0" k2="1" k3="1" k4="-0.5" in="SourceGraphic" />
+                <feComponentTransfer>
+                    <feFuncR type="discrete" tableValues="0 1" />
+                    <feFuncG type="discrete" tableValues="0 1" />
+                    <feFuncB type="discrete" tableValues="0 1" />
+                </feComponentTransfer>
+            </filter>
+            <filter id="duotone">
+                <feColorMatrix in="SourceGraphic" type="saturate" values="0" result="gray"></feColorMatrix>
+                <feFuncB type="linear" slope="2" intercept="-0.5"></feFuncB>
+                <feFuncG type="linear" slope="2" intercept="-0.5"></feFuncG>
+                <feFuncR type="linear" slope="2" intercept="-0.5"></feFuncR>
+                <feComponentTransfer in="gray" result="contrast"></feComponentTransfer>
+                <feColorMatrix in="contrast" type="matrix" values="0   0   0   0   0  
+			                                                       0   0   0   0   0  
+			                                                       0   0   0   0   0  
+			                                                       0.2 0.7 0.1 0   0" result="luminosity"></feColorMatrix>
+                <feFlood x="0" y="0" width="100%" height="100%" flood-color="var(--primary-color)" flood-opacity="1"
+                    result="primary"></feFlood>
+                <feFlood x="0" y="0" width="100%" height="100%" flood-color="var(--secondary-color)" flood-opacity="1"
+                    result="secondary"></feFlood>
+                <feComposite in="primary" in2="luminosity" operator="in" result="highlights"></feComposite>
+                <feBlend in="highlights" in2="secondary" mode="normal" result="duotone"></feBlend>
+                <feComposite in="duotone" in2="SourceAlpha" operator="in"></feComposite>
+            </filter>
+        </defs>
+    </svg>
 </head>
 
-<body>
-    <img src="/src/bv.png" width="100%" style="image-rendering: pixelated;">
-    
+<body class="dark-mode">
+    <div class="crt"></div>
+    <div class="background"></div>
+    <div class="deer"></div>
 
-    <p>[ the idler wheel... ]</p>
-    <p>go to: <a href="index.html">index</a> | <a href="not_found.html">void</a> | <a href="/old/index.html">version 2
-            archive</a></p>
+    <main class="layout-grid">
 
-    <img class="retro-media" src="https://picsum.photos/680/120?grayscale" alt="pic">
+        <div class="banner"></div>
 
-    <hr>
+        <header class="card-box">
+            <div class="card-header yellow-header">
+                <span>SYSTEM_LOCATION</span>
+                <span>STATUS: 200_OK</span>
+            </div>
+            <nav class="location">
+                <span class="nav-label">NAV></span>
+                <a href="index.html">INDEX</a> |
+                <a href="">HOME</a> |
+                <a href="not_found.html">[404]</a>
+            </nav>
+        </header>
 
-    <section id="microblog">
 
-        <h2>MICROBLOG STREAM</h2>
 
-        <article>
-            <ws-widget type="status" iid="2775"></ws-widget>
-        </article>
+        <section id="lastfm" class="card-box">
+            <img class="media" src="https://picsum.photos/480/120?grayscale" alt="pic"
+                title="the pic is random dont @ me if it's smth weird">
+            <div class="card-header">
+                <span>now listening to:</span>
+                <span id="listening"></span>
+            </div>
+        </section>
 
-        <article>
-            <span class="post-time">2026-08-21</span>
-            <p>yeah i changed everything again. sue me.
-            </p>
-        </article>
+        <section id="settings" class="card-box">
+            <div class="card-header">
+                <span>SETTINGS</span>
+            </div>
+            <button id="toggle-dark-mode">LIGHT MODE</button>
+            <button id="palette-button">CHANGE PALETTE</button>
+            <button id="toggle-crt">TOGGLE CRT</button>
+        </section>
 
-        <article>
-            <span class="post-time">2026-08-22</span>
-            <p>love how photos look with all those filters! here's one~ (it changes everytime you refresh the website)
-            </p>
-            <img class="retro-media" src="https://picsum.photos/680/300?grayscale" alt="pic">
-        </article>
+        <section id="microblog" class="card-box">
+            <div class="card-header">
+                <span>MICROBLOG_TRANSMISSION</span>
+                <span>[FREQ: 811MHZ]</span>
+            </div>
 
-        <section class="box" aria-labelledby="blog-heading">
-            <div class="terminal-bar">
-                <span>POSTS</span>
-                <span>[80x25]</span>
+            <div class="stream-content">
+                <article class="stream-item" id="statuscafe">
+                    <span class="post-time" id="statuscafe-date"></span>
+                    <p id="statuscafe-content"></p>
+                </article>
+
+                <article class="stream-item">
+                    <span class="post-time">2026-10-16</span>
+                    <p>the CRT may be bugged in some browsers and specific screen resolutions but i'm not really
+                        interested in fixing it... maybe i'll just leave it off as the default idk</p>
+                </article>
+                <article class="stream-item">
+                    <span class="post-time">2026-08-21</span>
+                    <p>yeah i changed everything again. <b>sue me.</b></p>
+                </article>
+
+                <article class="stream-item">
+                    <span class="post-time">2026-08-22</span>
+                    <p>love how photos look with all those filters! <i>here's one~</i> (it changes everytime you refresh
+                        the website)</p>
+                    <img class="media" src="https://static.photos/construction/640x360" alt="pic">
+                </article>
+            </div>
+        </section>
+
+        <section id="blog" class="card-box">
+            <div class="card-header">
+                <span>DIR: /BLOG/POSTS</span>
+                <span>[READONLY]</span>
             </div>
             <ul id="blog-list" class="blog-list">
-                <li class="blog-fallback muted">
-                    Loading posts… If nothing shows up, check
-                    <a href="blog/posts.json">posts.json</a>
-                    or open the markdown files in
-                    <a href="blog/">/blog</a>.
-                </li>
+                <li class="blog-fallback muted">Loading post index...</li>
             </ul>
         </section>
-    </section>
 
-    <hr>
 
-    <section id="hobbies">
-        <h2>INTERESTS & HOBBIES</h2>
-        <ul>
-            <li>aram mayhem</li>
-            <li>rupaul's drag race</li>
-            <li>asian pop music</li>
-            <li>touhou project</li>
-            <li>pokémon</li>
-            <li>genshin/hsr</li>
-            <li>trip hop and r&b</li>
-        </ul>
-    </section>
+    </main>
 
-    <hr>
+    <figure class="layout-grid">
+        <div class="main-image"></div>
+    </figure>
 
-    <section id="links">
-        <h2>LINKS</h2>
-        <ul>
-            <li><a href="https://x.com/fornoagas" target="_blank">twitter</a></li>
-            <li><a href="https://aery.neocities.org" target="_blank">neocities website</a></li>
-            <li><a href="https://rateyourmusic.com/~fornoagas" target="_blank">rateyourmusic</a></li>
-        </ul>
-    </section>
+    <aside class="layout-grid">
 
-    <hr>
+        <div class="grid-split">
+            <section id="hobbies" class="card-box">
+                <div class="card-header">
+                    <span>INTERESTS</span>
+                </div>
+                <ul>
+                    <li>aram mayhem</li>
+                    <li>rupaul's drag race</li>
+                    <li>asian pop music</li>
+                    <li>touhou project</li>
+                    <li>pokémon</li>
+                    <li>genshin/hsr</li>
+                    <li>trip hop and r&b</li>
+                </ul>
+            </section>
 
-    <section id="videos">
-        <iframe src="https://www.youtube.com/embed/hCJHMkVQsPk" title="YouTube video player" frameborder="0"
-            allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/gntvP3dDknk" title="YouTube video player" frameborder="0"
-            allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/AApEhaD70i4" title="YouTube video player" frameborder="0"
-            allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/F0_ifcuyFS0" title="YouTube video player" frameborder="0"
-            allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/RoH1Z5XVc6U" title="YouTube video player" frameborder="0"
-            allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/URewU5ll7VY" title="YouTube video player" frameborder="0"
-            allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/yqDufHrvn9k" title="YouTube video player" frameborder="0"
-            allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/HusaiK7SNS8" title="YouTube video player" frameborder="0"
-            allowfullscreen></iframe>
-    </section>
+            <section id="links" class="card-box">
+                <div class="card-header">
+                    <span>LINKS</span>
+                </div>
 
-    <hr>
-    <section id="guestbook">
-        <ws-widget type="comments" iid="2774"></ws-widget>
-    </section>
+                <ul>
+                    <li><a href="https://x.com/fornoagas" target="_blank">twitter</a></li>
+                    <li><a href="https://aery.neocities.org" target="_blank">neocities site</a></li>
+                    <li><a href="https://rateyourmusic.com/~fornoagas" target="_blank">rateyourmusic</a></li>
+                    <li><a href="https://last.fm/mimimidore" target="_blank">last.fm</a></li>
+                    <li><a href="https://steamcommunity.com/id/fornoagas/" target="_blank">steam</a></li>
+                    <li><a href="https://backloggd.com/u/ROV/" target="_blank">backloggd</a></li>
+                    <li><a href="https://open.spotify.com/user/qk5pocgl7rx2vtp3tpd3q0twn" target="_blank">spotify</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
 
-    <img src="/src/juleecruise.png" width="100%">
-    <footer>
+        <section id="webdeck-player">
+            <iframe src="webdeck-player/index.html" height="220" width="479"></iframe>
+        </section>
 
-        <ws-widget type="hc" iid="2779"></ws-widget>
-        <p>thanks~~ mwah! x</p>
-    </footer>
+        <div class="grid-split">
+            <section id="changelog" class="card-box">
+                <div class="card-header"><span>CHANGELOG</span></div>
+                <span>V3.1.0 2026-10</span>
+                <p>changed almost everything aesthetic-wise. could be 4.0 but whatever</p>
+                <span>V3.0.0 2026-06</span>
+                <p>started over from the beginning</p>
+                <span>V2.X 2025</span>
+                <p>added album inside game, emulator and wiki page</p>
+                <span>V2.0 2025-02</span>
+                <p>added an actual website layout</p>
+                <span>V1.X 2024</span>
+                <p>first draft, only had the yume nikki/omori game</p>
+            </section>
 
-    <aside>
-        <pre class="ascii">
-┌─────┐
-│     │
-│ ___ │
-│   ) │
-│     │
-│  _  │
-│ (_) │
-│     │
-│  __ │
-│ <__ │
-│     │
-│ ___ │
-│   ) │
-│     │
-│  _  │
-│ (_) │
-│     │
-│  __ │
-│ <__ │
-│     │
-│ ___ │
-│   ) │
-│     │
-│  _  │
-│ (_) │
-│     │
-│  __ │
-│ <__ │
-│     │
-│ ___ │
-│   ) │
-│     │
-│  _  │
-│ (_) │
-│     │
-│  __ │
-│ <__ │
-│     │
-│ ___ │
-│   ) │
-│     │
-│  _  │
-│ (_) │
-│     │
-│  __ │
-│ <__ │
-│     │
-└─────┘
-</pre>
+            <section class="card-box" id="side-pic"></section>
+        </div>
+
+        <section id="guestbook" class="card-box">
+            <div class="card-header">
+                <span>GUESTBOOK</span>
+            </div>
+            <ws-widget id="guestbook-widget" type="comments" iid="2774"></ws-widget>
+        </section>
+
+        <footer>
+            <div class="footer-img">
+                <div class="footer-info">
+                    <ws-widget type="hc" iid="2779"></ws-widget>
+                    <span>thanks~~ mwah! x</span>
+                </div>
+            </div>
+        </footer>
+
     </aside>
+    <script type="module" src="js/scripts.js"></script>
 </body>
 
 </html>

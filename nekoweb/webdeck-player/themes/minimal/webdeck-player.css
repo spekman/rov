@@ -1,0 +1,295 @@
+
+
+@font-face {
+    font-family: 'unscii';
+    src: url(fonts/unscii-8.ttf);
+}
+
+:root {
+    --btn-height: 24px;
+    --primary-color: white;
+    --secondary-color: black;
+    scrollbar-width: none;
+}
+
+*{
+    box-sizing: border-box;
+    font-family: 'unscii', monospace;
+    font-size: 8px;
+    margin: 0;
+    padding: 0;
+    image-rendering: pixelated;
+    text-transform: uppercase;
+}
+*:focus-visible {
+    outline: none;
+}
+
+body{
+    width: 476px;
+    height: 220px;
+    overflow-y: hidden;
+    color: var(--primary-color);
+    background: var(--secondary-color);
+}
+
+select{
+    margin-right: 2px;
+}
+
+button{
+    padding: 2px;
+    margin-right: 2px;
+    font-family: 'unscii';
+    color: var(--primary-color);
+    background: var(--secondary-color);
+    border: solid 2px var(--primary-color);
+    
+    
+}
+
+button:active{
+    color: var(--secondary-color);
+    background: var(--primary-color);
+    border: solid 2px var(--secondary-color);
+    
+    box-shadow: none;
+}
+
+b {
+    font-weight: normal;
+}
+
+.toggle-button {
+    font-size: 12px;
+    height: 20px;
+}
+
+.toggle-button[state='off'] > p::before{
+    font-family: 'unscii';
+    content: "□";
+    vertical-align: bottom;
+    margin-right: 2px;
+}
+
+.toggle-button[state='on'] > p::before{
+    font-family: 'unscii';
+    content: "◼";
+    vertical-align: bottom;
+    margin-right: 2px;
+}
+
+
+select{
+    background: var(--secondary-color);
+    border: solid 2px var(--primary-color);
+    
+    
+}
+
+select:active{
+    background: var(--secondary-color);
+    border: solid 2px var(--primary-color);
+    
+    
+    box-shadow: none;
+}
+
+
+
+
+/* Blink class */
+.blink {
+    animation: blinker 2s step-start infinite;
+}
+  
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+
+/* Columns section */
+.columns{
+    display: flex;
+}
+
+.columns > div:first-child{
+    flex-shrink: 0;
+    margin-right: 4px;
+}
+
+.columns > div:last-child{
+    flex-grow: 1;
+}
+
+/*********** Baseline, reset styles ***********/
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;  
+  border: 2px solid var(--primary-color);
+}
+/* Removes default focus */
+input[type="range"]:focus {
+  outline: none;
+}
+/******** Chrome, Safari, Opera and Edge Chromium styles ********/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+      background: repeating-conic-gradient(var(--primary-color) 0% 25%, transparent 0% 50%) 50% / 4px 4px;
+  border-radius: 0rem;
+  height: 2px;
+}
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  margin-top: -3px; /* Centers thumb on the track */
+  background-color: var(--primary-color);
+  border-radius: 0rem;
+  height: 8px;
+  width: 10px;
+}
+input[type="range"]:focus::-webkit-slider-thumb {
+    background-color: var(--secondary-color);
+  outline: 2px solid var(--primary-color);
+  outline-offset: 0;
+}
+/*********** Firefox styles ***********/
+/* slider track */
+input[type="range"]::-moz-range-track {
+  background-color: var(--secondary-color);
+  border-radius: 0rem;
+  height: 2px;
+}
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+  background-color: var(--primary-color);
+  border: none; /*Removes extra border that FF applies*/
+  border-radius: 0rem;
+  height: 8px;
+  width: 10px;
+}
+input[type="range"]:focus::-moz-range-thumb{
+    outline: 2px solid var(--primary-color);
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 0.125rem;
+}
+
+/* ---- Web Deck Player ---- */
+#web-deck-player{
+    padding: 4px;
+}
+
+
+/* Player title bar */
+#player-title-bar{
+    text-wrap: nowrap;
+    padding: 2px 0;
+    display: flex;
+    color: var(--primary-color);
+}
+
+#player-title-bar:before,
+#player-title-bar:after{
+    content: " ";
+    background-color: var(--primary-color);
+    flex: 1;
+}
+
+/* Player body */
+#player-body{
+    background: var(--secondary-color);
+    padding: 6px 4px;
+    border: solid 2px var(--primary-color);
+}
+
+
+/* Player display */
+#player-display{
+    width: 240px;
+    height: 135px;
+    background: var(--secondary-color);
+    border: solid 2px var(--primary-color);
+}
+
+
+/* Player info */
+#info-screen{
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    border: solid 2px var(--primary-color);
+    margin-bottom: 6px;
+    overflow-wrap: anywhere;
+    padding: 2px;
+}
+
+.player-row{
+    margin-top: 6px;
+}
+
+#volumeBar{
+    width: 100%;
+}
+
+#themeSelector{
+    height: 20px;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    display: none;
+}
+
+#videoButton{
+    height: 20px;
+}
+
+#playerLogo{
+    text-align: center;
+    height: fit-content;
+}
+
+#playerLogo > img{
+    margin-top: 4px;
+    max-height: 50px;
+}
+
+#seekBar{
+    width: 99%;
+    margin: 6px auto;
+}
+
+.playing-controls{
+    margin-bottom: 4px;
+    margin-right: 4px;
+    display: inline-block;
+    width: fit-content;
+    vertical-align: middle;
+}
+
+.playing-controls[float-right]{
+    float: right;
+}
+
+.playing-controls button{
+    height: var(--btn-height);
+    min-width: calc(var(--btn-height) + 6px);
+    font-size: 12px;
+    margin: 0;
+}
+
+
+#infoButton{
+    height: var(--btn-height);
+    min-width: var(--btn-height);
+}
+
+#playlistSelector{
+    color: inherit;
+    height: var(--btn-height);
+    max-width: 174px;
+    text-overflow: ellipsis;
+}
