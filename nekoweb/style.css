@@ -17,7 +17,7 @@ body {
     left: 0;
     right: 0;
     background-color: var(--secondary-color);
-    mask-image: url(src/poles.png), url(src/bird.png) ;
+    mask-image: url(src/poles.png), url(src/bird.png);
     mask-repeat: no-repeat no-repeat;
     mask-position: bottom right, top left;
     mask-size: calc(50% + var(--maxsize)/4) 100%, 50%;
@@ -27,12 +27,12 @@ body {
 }
 
 .deer {
-     position: fixed;
+    position: fixed;
     bottom: 0;
     left: 0;
     height: 50%;
     aspect-ratio: 1/1;
-    background-image:url(src/bsod.png); 
+    background-image: url(src/bsod.png);
     background-position: top left;
     background-repeat: no-repeat;
     opacity: 0;
@@ -40,10 +40,12 @@ body {
     mask-mode: alpha;
     mask-image: url(src/veado.gif);
 }
+
 .deer:hover {
     opacity: 1;
 }
-.deer:active{
+
+.deer:active {
     filter: invert(1);
     z-index: 2;
 }
@@ -55,7 +57,7 @@ body {
     background-color: var(--primary-color);
     mask-image: url(src/ppls.gif);
     mask-size: cover;
-    mask-mode:luminance;
+    mask-mode: luminance;
 }
 
 figure.layout-grid {
@@ -74,7 +76,8 @@ figure.layout-grid {
     scrollbar-width: none;
     border: 1px solid var(--secondary-color);
 }
-.layout-grid + .layout-grid {
+
+.layout-grid+.layout-grid {
     border-left: 0;
 }
 
@@ -85,7 +88,7 @@ figure.layout-grid {
     background-color: var(--secondary-color);
 
     mask-mode: luminance;
-    mask-image: url(src/rw.gif), url(src/space.gif) ;
+    mask-image: url(src/rw.gif), url(src/space.gif);
     mask-position: center center;
     mask-composite: exclude;
 }
@@ -95,12 +98,13 @@ figure.layout-grid {
     height: 225px;
     border-bottom: 1px solid var(--secondary-color);
 }
+
 #webdeck-player iframe {
     filter: url(#duotone);
     border: 2px solid white;
 }
 
-#changelog .card-header ~ span {
+#changelog .card-header~span {
     border-bottom: 1px dotted;
     text-align-last: justify;
     display: block;
@@ -109,6 +113,7 @@ figure.layout-grid {
 #changelog p {
     margin-top: 5px;
 }
+
 #changelog p:last-child {
     margin-bottom: 0;
 }
@@ -124,17 +129,20 @@ button {
     border-color: var(--secondary-color);
     border-style: dotted;
 }
+
 button:hover {
     cursor: pointer;
 }
 
-b, strong {
+b,
+strong {
     font-weight: normal;
 }
 
 a {
     color: var(--secondary-color);
 }
+
 a:hover {
     background-color: var(--secondary-color);
     color: var(--primary-color);
@@ -164,6 +172,7 @@ a:hover {
     padding: 1px 4px;
     margin-right: 6px;
 }
+
 .location a:nth-of-type(2) {
     background-color: var(--secondary-color);
     color: var(--primary-color);
@@ -188,7 +197,7 @@ a:hover {
     display: flex;
     min-height: inherit;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 
@@ -237,13 +246,15 @@ ws-widget {
     margin: 6px 0;
 }
 
-#hobbies ul, #links ul {
+#hobbies ul,
+#links ul {
     padding-left: 0;
     list-style: none;
     margin: 0;
 }
 
-#hobbies li::before, #links li::before {
+#hobbies li::before,
+#links li::before {
     content: ">> ";
 }
 
@@ -259,7 +270,9 @@ ws-widget {
     filter: invert(100%) contrast(150%) hue-rotate(45deg);
 }
 
-b, strong, ::selection {
+b,
+strong,
+::selection {
     color: var(--primary-color);
     background-color: var(--secondary-color);
     padding: 0;
@@ -270,7 +283,30 @@ b, strong, ::selection {
         flex-wrap: wrap;
         overflow-y: scroll;
     }
+
     .grid-split {
         grid-template-columns: 1fr;
+    }
+
+    figure.layout-grid {
+        min-height: 200px;
+        max-width: var(--maxsize);
+    }
+
+    #webdeck-player {
+        height: 220px;
+    }
+
+    #side-pic {
+        min-height: 200px;
+    }
+
+    .background {
+        mask-size: calc(50% + var(--maxsize)/2) 100%, 100%;
+    }
+
+    .layout-grid+.layout-grid {
+        border-left: 1px solid var(--secondary-color);
+        border-top: 0;
     }
 }

@@ -2,24 +2,20 @@
 <html lang="pt">
 
 <head>
-	<title>welcome</title>
+    <title>welcome</title>
 
-	<meta name="viewport" content="width=device-width, initial-scale=0.1">
+    <meta name="viewport" content="width=device-width, initial-scale=0.1">
 
-	<style>
-		:root {
-			--background-height:338px;
-			--background-width: 600px;
-		}
-		html {
-			background-color: var(--secondary-color);
-			image-rendering: pixelated;
-		}
+    <style>
+        html {
+            background-color: var(--secondary-color);
+            image-rendering: pixelated;
+        }
 
         body {
-            background: url(src/42.png);
-			background-size: cover;
-			color: #FFF;
+            background-image: url(src/42.png);
+            background-size: cover;
+            color: #FFF;
             margin: 0;
             height: 100vh;
             display: flex;
@@ -28,32 +24,42 @@
             justify-content: center;
             overflow: hidden;
             position: relative;
-			animation: moveBg 2s linear infinite;
+            animation: moveBg 2s linear infinite;
         }
 
-		@keyframes moveBg {
-			0% { background-position: 0; }
-			100% { background-position: 100vw;}
-		}
+        @keyframes moveBg {
+            0% {
+                background-position: right;
+            }
+
+            100% {
+                background-position: 100vw;
+            }
+        }
 
         .moving-bg {
             position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background-image: url(src/dust.png);
-			opacity: 0.3;
-			background-repeat: repeat;
-			mix-blend-mode: lighten;
+            opacity: 0.3;
+            background-repeat: repeat;
+            mix-blend-mode: lighten;
             animation: panBg 1.1s linear infinite;
             z-index: 1;
             pointer-events: none;
         }
 
         @keyframes panBg {
-            0% { background-position: 0 0; }
-            100% { background-position: var(--background-width) calc(-1 * var(--background-height)); }
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 600px -338px;
+            }
         }
 
         .whale-container {
@@ -65,7 +71,7 @@
             mask-size: contain;
             mask-repeat: no-repeat;
             mask-position: center;
-            
+
             display: flex;
             align-items: center;
             justify-content: center;
@@ -81,15 +87,16 @@
             cursor: pointer;
         }
 
-	</style>
+    </style>
 
 </head>
 
 <body>
-	<div class="moving-bg"></div>
+    <div class="moving-bg"></div>
     <div class="whale-container" onclick="history.back()">
         <div class="whale-inner-content">
         </div>
     </div>
 </body>
+
 </html>

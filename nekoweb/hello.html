@@ -23,12 +23,12 @@
             mix-blend-mode: lighten;
             position: absolute;
             height: 100vh;
-            z-index: 2;
+            z-index: 1;
             animation: flicker 3s ease-in-out infinite alternate ;
         }
 
         #angel.visible ~ #door {
-            opacity: 1 !important;
+            opacity: 1;
         }
         #door {
             position: absolute;
@@ -36,7 +36,7 @@
             right: 10%;
             width: 10em;
             aspect-ratio: 1/2;
-            z-index: 1;
+            z-index: 2;
             background-color: black;
             transition: opacity 3s;
             opacity: 0;
